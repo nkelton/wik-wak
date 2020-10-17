@@ -24,6 +24,13 @@ module WikWak
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+    # Mongo configuration
+    config.mongoid.logger = Logger.new(STDERR, :warn)
+    # Mongoid needs to pre-load all models before every request in development mode in order to properly set up single 
+    # collection inheritance. This can get slow that’s why if you are not using 
+    # any inheritance it is recommended you turn this feature off.
+    config.mongoid.preload_models = false
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading

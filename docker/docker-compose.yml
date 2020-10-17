@@ -1,0 +1,14 @@
+version: "3"
+services:
+  database: 
+    container_name: 'wik-wak-mongo'
+    image: mongo
+    volumes:
+      - ./mongo-volume:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=wik_wak_app
+      - MONGO_INITDB_ROOT_PASSWORD=wik_wak_password
+      - MONGO_INITDB_DATABASE=wik_wak_development
