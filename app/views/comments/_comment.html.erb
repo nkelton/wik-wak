@@ -1,0 +1,6 @@
+<p>
+    <strong><%= comment.name %>:</strong>
+    <%= comment.message %>
+    <br>
+    <%= link_to 'Destory', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+</p>
