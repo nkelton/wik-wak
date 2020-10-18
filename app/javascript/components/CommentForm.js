@@ -7,8 +7,6 @@ class CommentForm extends React.Component {
     this.state = { 
       name: '', 
       message: '',
-      postId: props.post_id,
-      authenticityToken: props.authenticity_token 
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -34,7 +32,7 @@ class CommentForm extends React.Component {
     const data = {
       name: this.state.name,
       message: this.state.message,
-      post_id: this.state.postId
+      post_id: this.props.post_id
     }
 
     const COMMENTS_URL = "http://localhost:3000/comments"
@@ -44,10 +42,10 @@ class CommentForm extends React.Component {
       headers:  {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "X-CSRF-Token": this.state.authenticityToken
+        "X-CSRF-Token": this.props.authenticity_token
       },
       body: JSON.stringify(data)
-    })
+    }).then(response => window.location.reload())
   }
 
   render () {
@@ -70,6 +68,7 @@ class CommentForm extends React.Component {
 CommentForm.propTypes = {
   name: PropTypes.string,
   message: PropTypes.node,
-  postId: PropTypes.string
+  post_id: PropTypes.string,
+  authenticity_token: PropTypes.string
 };
 export default CommentForm
