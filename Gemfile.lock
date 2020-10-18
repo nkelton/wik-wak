@@ -111,6 +111,8 @@ GEM
     mongoid (7.1.4)
       activemodel (>= 5.1, < 6.1)
       mongo (>= 2.7.0, < 3.0.0)
+    mongoid-geospatial (5.1.0)
+      mongoid (>= 4.0.0)
     msgpack (1.3.3)
     nio4r (2.5.4)
     nokogiri (1.10.10)
@@ -227,6 +229,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.2)
   mongoid
+  mongoid-geospatial
   pry (~> 0.13.1)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)

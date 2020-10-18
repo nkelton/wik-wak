@@ -7,11 +7,17 @@ class PostForm extends React.Component {
     this.state = {
       title: '',
       body: '',
+      ip: '',
+      location: []
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.setGeoCoordinates = this.setGeoCoordinates.bind(this);
+
+    this.retrieveClientIP();
+    navigator.geolocation.getCurrentPosition(this.setGeoCoordinates);
   }
 
   handleTitleChange(event) {
@@ -37,6 +43,8 @@ class PostForm extends React.Component {
     const data = {
       title: this.state.title,
       body: this.state.body,
+      ip: this.state.ip,
+      location: this.state.location
     }
 
     const COMMENTS_URL = "http://localhost:3000/posts"
@@ -57,9 +65,26 @@ class PostForm extends React.Component {
       return false;    
     } else if(this.state.body === '') {
       return false;
+    } else if(this.state.ip === '') {
+      return false;
+    } else if(this.state.location.length == 0) {
+      return false; 
     }
 
     return true;
+  }
+
+  retrieveClientIP() {
+    const url = "https://api.ipify.org/?format=json"
+    return fetch(url)
+      .then(response => response.json())
+      .then(data => this.setState({ ip: data.ip }))
+  }
+
+  setGeoCoordinates(position) {
+    this.setState({
+      location: [position.coords.latitude, position.coords.longitude]
+    });
   }
 
   render () {
