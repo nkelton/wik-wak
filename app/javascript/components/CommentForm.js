@@ -29,6 +29,12 @@ class CommentForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    if(!this.validateForm()) {
+      //TODO - show error
+      return; 
+    }
+
+
     const data = {
       name: this.state.name,
       message: this.state.message,
@@ -46,6 +52,16 @@ class CommentForm extends React.Component {
       },
       body: JSON.stringify(data)
     }).then(response => window.location.reload())
+  }
+
+  validateForm() {
+    if(this.state.name === '') {
+      return false;    
+    } else if(this.state.message === '') {
+      return false;
+    }
+
+    return true;
   }
 
   render () {
