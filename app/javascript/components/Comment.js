@@ -4,8 +4,8 @@ class Comment extends React.Component {
   render () {
     return (
       <React.Fragment>
-        Name: {this.props.name}
-        Message: {this.props.message}
+        Name: {this.props.comment.name}
+        Message: {this.props.comment.message}
       </React.Fragment>
     );
   }
