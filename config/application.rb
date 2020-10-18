@@ -25,7 +25,7 @@ module WikWak
     config.load_defaults 6.0
 
     # Mongo configuration
-    config.mongoid.logger = Logger.new(STDERR, :warn)
+    config.mongoid.logger = Logger.new(Rails.root.to_s + '/log/mongoid.log', :warn)
     # Mongoid needs to pre-load all models before every request in development mode in order to properly set up single 
     # collection inheritance. This can get slow that’s why if you are not using 
     # any inheritance it is recommended you turn this feature off.
