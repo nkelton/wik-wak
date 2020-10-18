@@ -1,28 +1,28 @@
 import React from "react"
 import PropTypes from "prop-types"
-class CommentForm extends React.Component {
+class PostForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
-      name: '', 
-      message: '',
+    this.state = {
+      title: '',
+      body: '',
     };
 
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleMessageChange = this.handleMessageChange.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleBodyChange = this.handleBodyChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleNameChange(event) {
+  handleTitleChange(event) {
     this.setState({
-      name: event.target.value
+      title: event.target.value
     });
   }
 
-  handleMessageChange(event) {
+  handleBodyChange(event) {
     this.setState({
-      message: event.target.value
+      body: event.target.value
     });
   }
 
@@ -35,12 +35,11 @@ class CommentForm extends React.Component {
     }
 
     const data = {
-      name: this.state.name,
-      message: this.state.message,
-      post_id: this.props.post_id
+      title: this.state.title,
+      body: this.state.body,
     }
 
-    const COMMENTS_URL = "http://localhost:3000/comments"
+    const COMMENTS_URL = "http://localhost:3000/posts"
 
     fetch(COMMENTS_URL, {
       method: 'POST',
@@ -54,9 +53,9 @@ class CommentForm extends React.Component {
   }
 
   validateForm() {
-    if(this.state.name === '') {
+    if(this.state.title === '') {
       return false;    
-    } else if(this.state.message === '') {
+    } else if(this.state.body === '') {
       return false;
     }
 
@@ -67,12 +66,12 @@ class CommentForm extends React.Component {
     return (
       <form onSubmit={ this.handleSubmit }>
         <label>
-          Name:
-          <input type="text" value={ this.state.name } onChange={ this.handleNameChange } />
+          Title:
+          <input type="text" value={ this.state.title } onChange={ this.handleTitleChange } />
         </label>
         <label>
-          Message: 
-          <textarea value={ this.state.message } onChange={ this.handleMessageChange } />
+          Body: 
+          <textarea value={ this.state.body } onChange={ this.handleBodyChange } />
         </label>
         <input type="submit" value="Submit" />
       </form>
@@ -80,10 +79,9 @@ class CommentForm extends React.Component {
   }
 }
 
-CommentForm.propTypes = {
-  name: PropTypes.string,
-  message: PropTypes.node,
-  post_id: PropTypes.string,
+PostForm.propTypes = {
+  title: PropTypes.string,
+  body: PropTypes.node,
   authenticity_token: PropTypes.string
 };
-export default CommentForm
+export default PostForm
