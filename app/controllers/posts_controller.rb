@@ -4,7 +4,9 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    #TODO - validate param[:location] before mapping 
+    location_param = params[:location].split(',').map { |coord| coord&.to_f }
+    @posts = Post.near_sphere(location: location_param)
   end
 
   # GET /posts/1
