@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 class PostForm extends React.Component {
   constructor(props) {
     super(props);
@@ -89,17 +91,40 @@ class PostForm extends React.Component {
 
   render () {
     return (
-      <form onSubmit={ this.handleSubmit }>
-        <label>
-          Title:
-          <input type="text" value={ this.state.title } onChange={ this.handleTitleChange } />
-        </label>
-        <label>
-          Body: 
-          <textarea value={ this.state.body } onChange={ this.handleBodyChange } />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <Form
+          onSubmit={ this.handleSubmit }
+        >
+          <Form.Group 
+            controlId="postTitle"
+          >
+            <Form.Label>Title</Form.Label>
+            <Form.Control 
+              type="string" 
+              placeholder="Enter title" 
+              value={ this.state.title }
+              onChange={ this.handleTitleChange } 
+            />
+          </Form.Group>
+          <Form.Group 
+            controlId="postBody"
+          >
+            <Form.Label>Body</Form.Label>
+            <Form.Control 
+              as="textarea" 
+              rows="3"
+              value={ this.state.body }
+              onChange={ this.handleBodyChange } 
+            />
+          </Form.Group>
+          <Button 
+            variant="primary" 
+            type="submit"
+          >
+            Make Post
+          </Button>
+        </Form>
+      </div>
     );
   }
 }

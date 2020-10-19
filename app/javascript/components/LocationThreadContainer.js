@@ -1,7 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
+import PostForm from "./PostForm"
 import ThreadContainer from "./ThreadContainer"
 import Jumbotron from 'react-bootstrap/Jumbotron'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
 class LocationThreadContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +14,11 @@ class LocationThreadContainer extends React.Component {
       posts: [],
       comments: [],
       threads: [],
+      show: false
     };
+
+    this.handleClose = this.handleClose.bind(this);
+    this.handleShow = this.handleShow.bind(this);
   }
 
   componentDidMount() {
@@ -84,6 +91,18 @@ class LocationThreadContainer extends React.Component {
     }).then(response => response.json());
   }
 
+  handleShow() {
+    this.setState({
+      show: true
+    });
+  }
+
+  handleClose() {
+    this.setState({
+      show: false
+    });
+  }
+
   render () {
     let threads = this.state.threads.map(thread => {
       return (
@@ -103,6 +122,26 @@ class LocationThreadContainer extends React.Component {
             <div className="container-fluid">
               <h1>WikWak</h1>
               <p>Like YikYak but with a 'W'</p>
+              <Button 
+                onClick={ this.handleShow }
+                variant="success">
+                Make Post
+              </Button>
+              <Modal
+                show={ this.state.show }
+                onHide={ this.handleClose }
+                backdrop="static"
+                keyboard={ false }
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Post</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <PostForm
+                    authenticity_token={ this.props.authenticity_token }
+                  />
+                </Modal.Body>
+              </Modal>
             </div>
           </Jumbotron>
         </div>
