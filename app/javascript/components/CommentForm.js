@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 class CommentForm extends React.Component {
   constructor(props) {
     super(props);
@@ -65,17 +67,39 @@ class CommentForm extends React.Component {
 
   render () {
     return (
-      <form onSubmit={ this.handleSubmit }>
-        <label>
-          Name:
-          <input type="text" value={ this.state.name } onChange={ this.handleNameChange } />
-        </label>
-        <label>
-          Message: 
-          <textarea value={ this.state.message } onChange={ this.handleMessageChange } />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <Form 
+          onSubmit={ this.handleSubmit } >
+          <Form.Group 
+            controlId="commentName"
+          >
+            <Form.Label>Name</Form.Label>
+            <Form.Control 
+              type="string" 
+              placeholder="Enter name" 
+              value={ this.state.name }
+              onChange={ this.handleNameChange } 
+            />
+          </Form.Group>
+          <Form.Group 
+            controlId="commentMessage"
+          >
+            <Form.Label>Message</Form.Label>
+            <Form.Control 
+              as="textarea" 
+              rows="3"
+              value={ this.state.message }
+              onChange={ this.handleMessageChange } 
+            />
+          </Form.Group>
+          <Button 
+            variant="primary" 
+            type="submit"
+          >
+            Add Comment
+          </Button>
+        </Form>
+      </div>
     );
   }
 }

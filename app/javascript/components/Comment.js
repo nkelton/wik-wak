@@ -1,13 +1,21 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Card from 'react-bootstrap/Card'
 class Comment extends React.Component {
+  //           Name: {this.props.comment.name}
+  // Message: {this.props.comment.message}
+
   render () {
     return (
       <React.Fragment>
-        <div>
-          Name: {this.props.comment.name}
-          Message: {this.props.comment.message}
-        </div>
+        <Card 
+          border="secondary"
+        >
+          <Card.Header><h6>{ this.props.comment.name }</h6></Card.Header>
+          <Card.Body>
+            <Card.Text>{ this.props.comment.message }</Card.Text>
+          </Card.Body>
+        </Card>
       </React.Fragment>
     );
   }

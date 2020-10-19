@@ -3,6 +3,11 @@ import PropTypes from "prop-types"
 import Post from "./Post"
 import Comment from "./Comment"
 import CommentForm from "./CommentForm"
+import Card from 'react-bootstrap/Card'
+import ListGroup from 'react-bootstrap/ListGroup' 
+import Nav from 'react-bootstrap/Nav'
+import Accordion from 'react-bootstrap/Accordion'
+import Button from 'react-bootstrap/Button'
 class ThreadContainer extends React.Component {
   render () {
     var commentCount = this.props.comments.length;
@@ -17,29 +22,46 @@ class ThreadContainer extends React.Component {
 
     return (
       <React.Fragment>
-        <section className="section post">
-          <div className="container">
-            <Post 
-              post={ this.props.post }
-            />
-          </div>
-        </section>
-        <section className="section comments">
-          <div className="container">
-            <h2 className="subtitle is-5">
-              <strong> { commentCount } </strong> Comments
-            </h2>
-            { comments }
-          </div>
-        </section>
-        <section className="section comment form">
-          <div className="container">
-            <CommentForm 
-              post_id={ this.props.post ? this.props.post.id["$oid"] : null }
-              authenticity_token={ this.props.authenticity_token }
-            /> 
-          </div>
-        </section>
+        <Accordion>
+          <Card>
+            <ListGroup 
+              variant="flush">
+                <ListGroup.Item>
+                  <h2>Post</h2>
+                  <Post
+                    post={ this.props.post }>
+                  </Post>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Nav as="ul">
+                    <Nav.Item as="li">
+                      <Accordion.Toggle as={ Button } variant="link" eventKey="0">
+                        Reply
+                      </Accordion.Toggle>                    
+                    </Nav.Item>
+                    <Nav.Item as="li">
+                      <Accordion.Toggle as={ Button } variant="link" eventKey="1">
+                        <strong> { commentCount } </strong> Comments
+                      </Accordion.Toggle>
+                    </Nav.Item>
+                  </Nav>
+                </ListGroup.Item>
+                <Accordion.Collapse eventKey="1">
+                  <ListGroup.Item> 
+                    { comments } 
+                  </ListGroup.Item>
+                </Accordion.Collapse>
+                <Accordion.Collapse eventKey="0">
+                  <ListGroup.Item> 
+                    <CommentForm 
+                      post_id={ this.props.post ? this.props.post.id["$oid"] : null }
+                      authenticity_token={ this.props.authenticity_token }
+                    /> 
+                  </ListGroup.Item>
+                </Accordion.Collapse>
+            </ListGroup>
+          </Card>
+        </Accordion>
       </React.Fragment>
     );
   }

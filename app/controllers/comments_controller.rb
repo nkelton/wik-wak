@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
+    #TODO - add validation?
     @comments = Comment.where(post_id: params[:post_id])
   end
 

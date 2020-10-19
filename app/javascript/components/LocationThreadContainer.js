@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ThreadContainer from "./ThreadContainer"
+import Jumbotron from 'react-bootstrap/Jumbotron'
 class LocationThreadContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -98,6 +99,14 @@ class LocationThreadContainer extends React.Component {
     return (
       <React.Fragment>
         <div>
+          <Jumbotron className="jumbotron vertical-center">
+            <div className="container-fluid">
+              <h1>WikWak</h1>
+              <p>Like YikYak but with a 'W'</p>
+            </div>
+          </Jumbotron>
+        </div>
+        <div className="container">
           { threads }
         </div>
       </React.Fragment>
