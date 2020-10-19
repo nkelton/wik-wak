@@ -1,20 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<%= react_component("Post", { post: @post }) %>
-
-<section class="section comments">
-  <div class="container">
-    <h2 class="subtitle is-5">
-      <strong><%=@post.comments.count %></strong> Comments
-    </h2> 
-
-    <% @post.comments.each do |comment| %>
-      <%= react_component("Comment", { comment: comment }) %>
-    <% end %>
-
-    <%= react_component("CommentForm", { post_id: @post.id.to_s, authenticity_token: form_authenticity_token }) %>
-  </div>
-</section>
-
+<%= react_component("ThreadContainer", { 
+  post: @post, 
+  comments: @post.comments,
+  authenticity_token: form_authenticity_token }) %>
+  
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>
