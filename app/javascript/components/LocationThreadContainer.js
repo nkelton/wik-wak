@@ -6,6 +6,9 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import InfiniteScroll from 'react-infinite-scroller';
+import Spinner from 'react-bootstrap/Spinner'
+import PostHelper from './helper/PostHelper'
+import CommentHelper from './helper/CommentHelper'
 class LocationThreadContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -41,38 +44,12 @@ class LocationThreadContainer extends React.Component {
     });
   }
 
-  fetchPostsFrom() {
-    const POSTS_URL = "http://localhost:3000/posts?"
-
-    return fetch(POSTS_URL + new URLSearchParams({
-      location: this.state.location,
-      offset: this.state.postOffset,
-      limit: this.state.postLimit
-    }), {
-      headers:  {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-CSRF-Token": this.props.authenticity_token
-      }
-    }).then(response => response.json())
-  }
-
-  fetchCommentsFor(postId) {
-    const COMMENTS_URL = "http://localhost:3000/comments?"
-
-    return fetch(COMMENTS_URL + new URLSearchParams({
-      post_id: postId
-    }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-CSRF-Token": this.props.authenticity_token
-      }
-    }).then(response => response.json());
-  }
-
   fetchThreads() {
-    return this.fetchPostsFrom().then((posts) => {
+      return PostHelper.get(
+        this.state.location, 
+        this.state.postOffset, 
+        this.state.postLimit, 
+        this.props.authenticity_token).then((posts) => {
       let offSet = posts.length;
 
       if(offSet < this.state.postLimit) {
@@ -87,7 +64,7 @@ class LocationThreadContainer extends React.Component {
       });
 
       return Promise.all(posts.map((post) => {
-        return this.fetchCommentsFor(post.id["$oid"]);
+        return CommentHelper.get(post.id["$oid"], this.props.authenticity_token);
       }));
     }).then((comments) => {
       this.setState({
@@ -117,6 +94,14 @@ class LocationThreadContainer extends React.Component {
     this.setState({
       show: false
     });
+  }
+
+  loader() {
+    return(
+      <Spinner animation="border" role="status" key={0}>
+        <span className="sr-only">Loading...</span>
+      </Spinner>
+    );
   }
 
   render () {
@@ -163,10 +148,10 @@ class LocationThreadContainer extends React.Component {
         </div>
         <div className="container">
           <InfiniteScroll
-          initialLoad={ false }
+            initialLoad={ false }
             hasMore={ this.state.hasMore }
             loadMore= { this.fetchThreads.bind(this) }
-            loader={<div className="loader" key={0}>Loading ...</div>}
+            loader={ this.loader() }
           >
             <div className="threads">
               { threads }
