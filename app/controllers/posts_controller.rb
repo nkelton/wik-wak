@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   def index
     #TODO - validate param[:location] before mapping 
     location_param = params[:location].split(',').map { |coord| coord&.to_f }
-    @posts = Post.near_sphere(location: location_param)
+    @posts = Post.near_sphere(location: location_param).paginate(offset: params[:offset], limit: params[:limit]).desc(:_id)
   end
 
   # GET /posts/1
@@ -55,7 +55,7 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1
   # DELETE /posts/1.json
-  def destroy
+  def destroy 
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }

@@ -5,6 +5,7 @@ import ThreadContainer from "./ThreadContainer"
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import InfiniteScroll from 'react-infinite-scroller';
 class LocationThreadContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,10 @@ class LocationThreadContainer extends React.Component {
       posts: [],
       comments: [],
       threads: [],
-      show: false
+      show: false,
+      hasMore: true,
+      postOffset: 0,
+      postLimit: 3,
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -23,38 +27,12 @@ class LocationThreadContainer extends React.Component {
 
   componentDidMount() {
     this.getClientPosition().then((position) => {
-        let location = [position.coords.latitude, position.coords.longitude];
         this.setState({
-          location: location
+          location: [position.coords.latitude, position.coords.longitude]
         });
-
-        return location;
-      }).then((location) => {
-        return this.fetchPostsFrom(location);
-      }).then((posts) => {
-        this.setState({
-          posts: posts
-        });
-
-        return Promise.all(posts.map((post) => {
-          return this.fetchCommentsFor(post.id["$oid"]);
-        }));
-      }).then((comments) => {
-        this.setState({
-          comments: comments
-        })
       }).then(() => {
-        let threads = this.state.comments.map((comments, index) => {
-          return {
-            post: this.state.posts[index],
-            comments: comments
-          }
-        });
-
-        this.setState({
-          threads: threads
-        });
-      })
+        return this.fetchThreads();
+      });
   }
 
   getClientPosition(options) {
@@ -63,11 +41,13 @@ class LocationThreadContainer extends React.Component {
     });
   }
 
-  fetchPostsFrom(location) {
+  fetchPostsFrom() {
     const POSTS_URL = "http://localhost:3000/posts?"
 
     return fetch(POSTS_URL + new URLSearchParams({
-      location: location
+      location: this.state.location,
+      offset: this.state.postOffset,
+      limit: this.state.postLimit
     }), {
       headers:  {
         "Content-Type": "application/json",
@@ -91,6 +71,42 @@ class LocationThreadContainer extends React.Component {
     }).then(response => response.json());
   }
 
+  fetchThreads() {
+    return this.fetchPostsFrom().then((posts) => {
+      let offSet = posts.length;
+
+      if(offSet < this.state.postLimit) {
+        this.setState({
+          hasMore: false
+        });
+      }
+
+      this.setState({
+        posts: this.state.posts.concat(posts),
+        postOffset: this.state.postOffset + offSet
+      });
+
+      return Promise.all(posts.map((post) => {
+        return this.fetchCommentsFor(post.id["$oid"]);
+      }));
+    }).then((comments) => {
+      this.setState({
+        comments: this.state.comments.concat(comments)
+      })
+    }).then(() => {
+      let threads = this.state.comments.map((comments, index) => {
+        return {
+          post: this.state.posts[index],
+          comments: comments
+        }
+      });
+
+      this.setState({
+        threads: threads
+      });
+    })
+  }
+
   handleShow() {
     this.setState({
       show: true
@@ -109,11 +125,11 @@ class LocationThreadContainer extends React.Component {
         <ThreadContainer 
           post={ thread.post }
           comments={ thread.comments }
-          authenticity_token={ this.props.authenticity_token }
+          authenticity_token={ this.props.authenticity_token } //can probably remove this? it's already in props
           key={ thread.post.id["$oid"] } 
         />
       );
-    }); 
+    });
 
     return (
       <React.Fragment>
@@ -146,7 +162,16 @@ class LocationThreadContainer extends React.Component {
           </Jumbotron>
         </div>
         <div className="container">
-          { threads }
+          <InfiniteScroll
+          initialLoad={ false }
+            hasMore={ this.state.hasMore }
+            loadMore= { this.fetchThreads.bind(this) }
+            loader={<div className="loader" key={0}>Loading ...</div>}
+          >
+            <div className="threads">
+              { threads }
+            </div>
+          </InfiniteScroll>
         </div>
       </React.Fragment>
     );
