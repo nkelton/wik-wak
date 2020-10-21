@@ -17,7 +17,7 @@ class ThreadContainer extends React.Component {
   }
 
   render () {
-    let comments = this.props.comments.map((comment) => {
+    let comments = this.parentComments().map((comment) => {
       return(
         <Comment 
           comment={ comment }
