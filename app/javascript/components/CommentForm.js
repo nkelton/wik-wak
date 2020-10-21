@@ -39,17 +39,19 @@ class CommentForm extends React.Component {
     const data = {
       name: this.state.name,
       message: this.state.message,
-      post_id: this.props.post_id
-    }
+      post_id: this.props.postId,
+      parent_id: this.props.parentId
+    };
 
-    const COMMENTS_URL = "http://localhost:3000/comments"
+    const csrfToken = $('meta[name=csrf-token]').attr('content');
+    const COMMENTS_URL = "http://localhost:3000/comments";
 
     fetch(COMMENTS_URL, {
       method: 'POST',
       headers:  {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "X-CSRF-Token": this.props.authenticity_token
+        "X-CSRF-Token": csrfToken
       },
       body: JSON.stringify(data)
     }).then(response => window.location.reload())

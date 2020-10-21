@@ -49,14 +49,15 @@ class PostForm extends React.Component {
       location: this.state.location
     }
 
-    const COMMENTS_URL = "http://localhost:3000/posts"
+    const csrfToken = $('meta[name=csrf-token]').attr('content');
+    const COMMENTS_URL = "http://localhost:3000/posts";
 
     fetch(COMMENTS_URL, {
       method: 'POST',
       headers:  {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "X-CSRF-Token": this.props.authenticity_token
+        "X-CSRF-Token": csrfToken
       },
       body: JSON.stringify(data)
     }).then(response => window.location.reload())

@@ -110,7 +110,6 @@ class LocationThreadContainer extends React.Component {
         <ThreadContainer 
           post={ thread.post }
           comments={ thread.comments }
-          authenticity_token={ this.props.authenticity_token } //can probably remove this? it's already in props
           key={ thread.post.id["$oid"] } 
         />
       );
@@ -138,9 +137,7 @@ class LocationThreadContainer extends React.Component {
                   <Modal.Title>Post</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <PostForm
-                    authenticity_token={ this.props.authenticity_token }
-                  />
+                  <PostForm/>
                 </Modal.Body>
               </Modal>
             </div>
