@@ -54,3 +54,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "react-rails", "~> 2.6"
 gem 'mongoid-geospatial'
 gem 'mongoid-pagination'
+gem 'sidekiq', '~>6.0.0'

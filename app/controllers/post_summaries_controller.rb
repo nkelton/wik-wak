@@ -4,7 +4,8 @@ class PostSummariesController < ApplicationController
   # GET /post_summaries
   # GET /post_summaries.json
   def index
-    @post_summaries = PostSummary.where(post_id: params[:post_id]).first
+    post_summary = PostSummary.where(post_id: params[:post_id])&.first
+    @post_summary = post_summary ? post_summary : {} 
   end
 
   # GET /post_summaries/1

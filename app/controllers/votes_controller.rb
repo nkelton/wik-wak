@@ -26,6 +26,12 @@ class VotesController < ApplicationController
   def create
     @vote = Vote.new(vote_params)
 
+    if vote_params.key?("comment_id")
+      CommentSummaryVoteWorker.perform_async({ value: @vote.value, comment_id: @vote.comment_id })
+    elsif vote_params.key?("post_id")
+      PostSummaryVoteWorker.perform_async({ value: @vote.value, post_id: @vote.post_id })
+    end
+
     respond_to do |format|
       if @vote.save
         format.html { redirect_to @vote, notice: 'Vote was successfully created.' }

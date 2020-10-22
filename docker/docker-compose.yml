@@ -12,3 +12,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=wik_wak_app
       - MONGO_INITDB_ROOT_PASSWORD=wik_wak_password
       - MONGO_INITDB_DATABASE=wik_wak_development
+  redis:
+    container_name: 'wik-wak-redis'
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
