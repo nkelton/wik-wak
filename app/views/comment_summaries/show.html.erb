@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Up votes:</strong>
+  <%= @comment_summary.up_votes %>
+</p>
+
+<p>
+  <strong>Down votes:</strong>
+  <%= @comment_summary.down_votes %>
+</p>
+
+<%= link_to 'Edit', edit_comment_summary_path(@comment_summary) %> |
+<%= link_to 'Back', comment_summaries_path %>

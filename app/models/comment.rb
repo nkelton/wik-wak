@@ -9,4 +9,6 @@ class Comment
 
   has_many :replies, class_name: 'Comment', foreign_key: :parent_id, dependent: :destroy
   has_many :votes
+
+  has_one :comment_summary
 end

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Post Summaries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Up votes</th>
+      <th>Down votes</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @post_summaries.each do |post_summary| %>
+      <tr>
+        <td><%= post_summary.up_votes %></td>
+        <td><%= post_summary.down_votes %></td>
+        <td><%= link_to 'Show', post_summary %></td>
+        <td><%= link_to 'Edit', edit_post_summary_path(post_summary) %></td>
+        <td><%= link_to 'Destroy', post_summary, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Post Summary', new_post_summary_path %>
