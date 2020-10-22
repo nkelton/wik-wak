@@ -6,6 +6,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Nav from 'react-bootstrap/Nav'
 import Accordion from 'react-bootstrap/Accordion'
 import Button from 'react-bootstrap/Button'
+import Vote from './Vote'
 class Thread extends React.Component {
   render () {
     return (
@@ -29,17 +30,7 @@ class Thread extends React.Component {
                     </Accordion.Toggle>
                   </Nav.Item>
                   <Nav.Item>
-                    <div className="voting">
-                      <div className="vote-buttons">
-                        <button className="upvote" onClick={() => console.log("upvote")}>
-                          Upvote
-                        </button>
-                        <button className="downvote" onClick={() => console.log("downvote")}>
-                          Downvote
-                        </button>
-                      </div>
-                      <div className="votes">Votes: 0</div>
-                    </div>
+                    <Vote />
                   </Nav.Item>
                 </Nav>
               </ListGroup.Item>
