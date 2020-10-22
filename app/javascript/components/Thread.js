@@ -28,6 +28,19 @@ class Thread extends React.Component {
                       <strong> { this.props.children.length } </strong> Comments
                     </Accordion.Toggle>
                   </Nav.Item>
+                  <Nav.Item>
+                    <div className="voting">
+                      <div className="vote-buttons">
+                        <button className="upvote" onClick={() => console.log("upvote")}>
+                          Upvote
+                        </button>
+                        <button className="downvote" onClick={() => console.log("downvote")}>
+                          Downvote
+                        </button>
+                      </div>
+                      <div className="votes">Votes: 0</div>
+                    </div>
+                  </Nav.Item>
                 </Nav>
               </ListGroup.Item>
               <Accordion.Collapse eventKey="1">

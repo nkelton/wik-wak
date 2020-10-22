@@ -10,6 +10,7 @@ class Post
   field :location, type: Point, sphere: true
 
   has_many :comments, dependent: :destroy
+  has_many :votes
 
   sphere_index :location
 end
