@@ -34,6 +34,7 @@ class ThreadContainer extends React.Component {
           children={ comments }
           postId={ this.props.post.id["$oid"] }
           parentId={ null }
+          voteBody={ { post_id: this.props.post.id["$oid"] } }
         />
       </React.Fragment>
     );

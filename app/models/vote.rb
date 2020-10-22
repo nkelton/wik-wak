@@ -4,6 +4,6 @@ class Vote
   field :ip, type: String
   field :value, type: Integer
 
-  belongs_to :post
-  belongs_to :comment
+  belongs_to :post, optional: true
+  belongs_to :comment, optional: true
 end

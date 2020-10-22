@@ -30,7 +30,9 @@ class Thread extends React.Component {
                     </Accordion.Toggle>
                   </Nav.Item>
                   <Nav.Item>
-                    <Vote />
+                    <Vote 
+                      voteBody={ this.props.voteBody }
+                    />
                   </Nav.Item>
                 </Nav>
               </ListGroup.Item>

@@ -39,6 +39,7 @@ class Comment extends React.Component {
           children={ replies }
           parentId={ this.props.comment.id["$oid"] }
           postId={ this.props.comment.post_id["$oid"] }
+          voteBody={ { comment_id: this.props.comment.id["$oid"] } }
         />
       </React.Fragment>
     );
