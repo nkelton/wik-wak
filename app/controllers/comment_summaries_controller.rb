@@ -4,7 +4,7 @@ class CommentSummariesController < ApplicationController
   # GET /comment_summaries
   # GET /comment_summaries.json
   def index
-    @comment_summaries = CommentSummary.all
+    @comment_summaries = CommentSummary.where(comment_id: params[:comment_id]).first
   end
 
   # GET /comment_summaries/1

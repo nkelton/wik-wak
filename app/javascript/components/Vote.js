@@ -6,7 +6,7 @@ class Vote extends React.Component {
     super(props);
 
     this.state = {
-      votes: 0 //this.props.votes
+      votes: this.props.votes
     }
 
     this.onUpVote = this.onUpVote.bind(this);
@@ -43,7 +43,7 @@ class Vote extends React.Component {
               Downvote
             </button>
           </div>
-          <div className="votes">Votes:  {this.state.votes}</div>
+          <div className="votes">Votes: { this.state.votes }</div>
         </div>
       </React.Fragment>
     );
