@@ -7,24 +7,7 @@ import PostSummaryHelper from "./helper/PostSummaryHelper"
 class ThreadContainer extends React.Component {  
   constructor(props) {
     super(props);
-
-    this.state = {
-      summary: {}
-    }
   }
-  
-  componentDidMount() {
-    this.getSummary().then((summary) => {
-      this.setState({
-        summary: summary
-      });
-    });
-  }
-
-  getSummary() {
-    return PostSummaryHelper.get({ post_id: this.props.post.id["$oid"] });
-  }
-
   post() {
     return(
       <Post
@@ -58,7 +41,7 @@ class ThreadContainer extends React.Component {
           postId={ postId }
           parentId={ null }
           voteBody={ { post_id: postId } }
-          summary={ this.state.summary }
+          summary={ this.props.post.summary }
         />
       </React.Fragment>
     );

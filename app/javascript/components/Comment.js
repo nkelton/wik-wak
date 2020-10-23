@@ -6,22 +6,6 @@ import CommentSummaryHelper from "./helper/CommentSummaryHelper"
 class Comment extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      summary: {}
-    }
-  }
-
-  componentDidMount() {
-    this.getSummary().then((summary) => {
-      this.setState({
-        summary: summary
-      });
-    });
-  }
-
-  getSummary() {
-    return CommentSummaryHelper.get({ comment_id: this.props.comment.id["$oid"] });
   }
 
   isChild(childParentId) {
@@ -62,7 +46,7 @@ class Comment extends React.Component {
           parentId={ commentId }
           postId={ this.props.comment.post_id["$oid"] }
           voteBody={ { comment_id: commentId } }
-          summary={ this.state.summary }
+          summary={ this.props.comment.summary }
         />
       </React.Fragment>
     );

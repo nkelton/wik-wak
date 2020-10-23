@@ -7,6 +7,7 @@ class PostsController < ApplicationController
     #TODO - validate param[:location] before mapping 
     location_param = params[:location].split(',').map { |coord| coord&.to_f }
     @posts = Post.near_sphere(location: location_param).paginate(offset: params[:offset], limit: params[:limit]).desc(:_id)
+    @with_summary = true
   end
 
   # GET /posts/1

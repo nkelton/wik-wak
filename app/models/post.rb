@@ -12,7 +12,7 @@ class Post
   has_many :comments, dependent: :destroy
   has_many :votes
 
-  has_one :comment_summary
+  has_one :post_summary
 
   sphere_index :location
 end

@@ -32,7 +32,7 @@ class Thread extends React.Component {
                   <Nav.Item>
                     <Vote 
                       voteBody={ this.props.voteBody }
-                      votes={ this.props.summary.up_votes ? this.props.summary.up_votes : 0 }
+                      votes={ this.props.summary ? this.props.summary.up_votes : 0 }
                     />
                   </Nav.Item>
                 </Nav>

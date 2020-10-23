@@ -6,6 +6,7 @@ class CommentsController < ApplicationController
   def index
     #TODO - add validation?
     @comments = Comment.where(post_id: params[:post_id])
+    @with_summary = true
   end
 
   # GET /comments/1
