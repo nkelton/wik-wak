@@ -6,4 +6,7 @@ class Vote
 
   belongs_to :post, optional: true
   belongs_to :comment, optional: true
+
+  UPVOTE = 1
+  DOWNVOTE = -1
 end
