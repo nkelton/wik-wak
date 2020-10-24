@@ -4,7 +4,7 @@ class PostSummaryFactory < Factory
     SUCCESS = "success"
     ERROR = "error"
 
-    POST_NOT_FOUND_ERROR = "Post Summary Not Found"
+    POST_SUMMARY_NOT_FOUND_ERROR = "Post Summary Not Found"
     
     def initialize
         super
@@ -32,7 +32,7 @@ class PostSummaryFactory < Factory
         post_summary = Post.find_by(post_id: post_id)
 
         if !post_summary
-            add_error([POST_NOT_FOUND_ERROR])
+            add_error([POST_SUMMARY_NOT_FOUND_ERROR])
             @result.code = ERROR
         end
 

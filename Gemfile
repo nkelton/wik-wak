@@ -29,6 +29,9 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry', '~> 0.13.1'
+  gem 'rspec-rails', '~> 4.0.1'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
 end
 
 group :development do
@@ -46,6 +49,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'mongoid-rspec'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -55,3 +59,4 @@ gem "react-rails", "~> 2.6"
 gem 'mongoid-geospatial'
 gem 'mongoid-pagination'
 gem 'sidekiq', '~>6.0.0'
+gem 'did_you_mean'
