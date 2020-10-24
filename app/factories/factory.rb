@@ -1,8 +1,7 @@
 class Factory
-    attr_accessor :errors, :logger
+    attr_accessor :errors
     
-    def initialize(logger: Logger.new)
-        @logger = logger
+    def initialize
         @errors = []
     end
     

@@ -1,5 +1,5 @@
 class CommentSummaryFactory < Factory
-    Result = Struct.new(:response, :errors, :code)
+    Result = Struct.new(:response, :errors, :code, keyword_init: true)
 
     SUCCESS = "success"
     ERROR = "error"
@@ -12,11 +12,11 @@ class CommentSummaryFactory < Factory
     end
 
     def up_vote(comment_id:)
-        comment_summary = comment_summary.find_by(comment_id: comment_id)
+        comment_summary = CommentSummary.find_by(comment_id: comment_id)
 
         if !comment_summary
             add_error([COMMENT_NOT_FOUND_ERROR])
-            @results.code = ERROR
+            @result.code = ERROR
         end
 
         if !errors?
@@ -24,7 +24,7 @@ class CommentSummaryFactory < Factory
             @result.response = _update(comment_summary: comment_summary, params: { up_votes: new_up_votes })
         end
 
-        @results.errors = errors
+        @result.errors = errors
         @result
     end
 
@@ -33,7 +33,7 @@ class CommentSummaryFactory < Factory
 
         if !comment_summary
             add_error([COMMENT_NOT_FOUND_ERROR])
-            @results.code = ERROR
+            @result.code = ERROR
         end
 
         if !errors?
@@ -41,7 +41,7 @@ class CommentSummaryFactory < Factory
             @result.response = _update(comment_summary: comment_summary, params: { down_votes: new_down_votes })
         end
 
-        @results.errors = errors
+        @result.errors = errors
         @result
     end
 
