@@ -32,10 +32,10 @@ development:
         #     - use: web
 
         # The name of the user for authentication.
-        user: 'wik_wak_app'
+        # user: 'wik_wak_app'
 
         # The password of the user for authentication.
-        password: 'wik_wak_password'
+        # password: 'wik_wak_password'
 
         # The user's database roles.
         # roles:
@@ -49,7 +49,7 @@ development:
 
         # The database or source to authenticate the user against.
         # (default: the database specified above or admin)
-        auth_source: admin
+        # auth_source: admin
 
         # Force a the driver cluster to behave in a certain manner instead of auto-
         # discovering. Can be one of: :direct, :replica_set, :sharded. Set to :direct
