@@ -4,9 +4,9 @@ class PostSummaryVoteWorker
 
     def perform(vote)
         if vote["value"] == Vote::UPVOTE
-            PostSummaryFactory.new.up_vote(post_id: vote["post_id"]["$oid"])
+            Factories::PostSummaryFactory.new.up_vote(post_id: vote["post_id"]["$oid"])
         elsif vote["value"] == Vote::DOWNVOTE
-            PostSummaryFactory.new.down_vote(post_id: vote["post_id"]["$oid"])
+            Factories::PostSummaryFactory.new.down_vote(post_id: vote["post_id"]["$oid"])
         end 
     end
 
