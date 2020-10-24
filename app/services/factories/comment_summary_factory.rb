@@ -5,7 +5,7 @@ module Factories
         SUCCESS = "success"
         ERROR = "error"
     
-        COMMENT_NOT_FOUND_ERROR = "Comment Summary Not Found"
+        COMMENT_SUMMARY_NOT_FOUND_ERROR = "Comment Summary Not Found"
         
         def initialize
             super
@@ -16,7 +16,7 @@ module Factories
             comment_summary = CommentSummary.find_by(comment_id: comment_id)
     
             if !comment_summary
-                add_error([COMMENT_NOT_FOUND_ERROR])
+                add_error([COMMENT_SUMMARY_NOT_FOUND_ERROR])
                 @result.code = ERROR
             end
     
