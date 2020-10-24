@@ -141,6 +141,8 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     public_suffix (4.0.6)
     puma (4.3.6)
       nio4r (~> 2.0)
@@ -189,9 +191,6 @@ GEM
       tilt
     redis (4.2.2)
     regexp_parser (1.8.2)
-    responders (3.0.1)
-      actionpack (>= 5.0)
-      railties (>= 5.0)
     rspec-core (3.9.3)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.3)
@@ -284,11 +283,10 @@ DEPENDENCIES
   mongoid-geospatial
   mongoid-pagination
   mongoid-rspec
-  pry (~> 0.13.1)
+  pry-rails
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
   react-rails (~> 2.6)
-  responders
   rspec-rails (~> 4.0.1)
   sass-rails (>= 6)
   selenium-webdriver
