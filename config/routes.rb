@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
-  resources :comment_summaries
-  resources :post_summaries
-  resources :votes
-  resources :comments
-  resources :posts
+  mount API::Base, at: "/"
+  mount GrapeSwaggerRails::Engine, at: "/documentation"
 
   root 'pages#index'
 end

@@ -38,5 +38,15 @@ module WikWak
 
     # Autoload path to workers
     config.autoload_paths += %W(#{config.root}/workers)
+
+    # Configure Rack-CORS Middleware 
+    config.middleware.use Rack::Cors do
+      allow do
+        origins "*"
+        resource "*", headers: :any, methods: [:get, 
+            :post, :put, :delete, :options]
+      end
+    end
+    
   end
 end
