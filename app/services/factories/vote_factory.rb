@@ -31,7 +31,6 @@ module Factories
         private 
 
         def _queue_summary_vote(vote:)
-            binding.pry 
             if vote.is_post?
                 PostSummaryVoteWorker.perform_async({ value: vote.value, post_id: vote.post_id })
             elsif vote.is_comment?
