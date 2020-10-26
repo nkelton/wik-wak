@@ -6,10 +6,32 @@ module Factories
         ERROR = "error"
     
         COMMENT_SUMMARY_NOT_FOUND_ERROR = "Comment Summary Not Found"
-        
+
+        UPVOTES_DEFAULT = 0
+        DOWNVOTES_DEFAULT = 0
+
         def initialize
             super
             @result = Result.new(response: nil, errors: [], code: SUCCESS)
+        end
+
+        def create(comment_id:)
+            comment_summary_params = {
+                comment_id: comment_id,
+                up_votes: UPVOTES_DEFAULT,
+                down_votes: DOWNVOTES_DEFAULT
+            }
+
+            comment_summary = CommentSummary.new(comment_summary_params)
+
+            if comment_summary.save
+                @result.response = comment_summary
+            else 
+                @result.code = ERROR
+                @result.errors = comment_summary.errors 
+            end
+
+            @result
         end
     
         def up_vote(comment_id:)

@@ -21,14 +21,6 @@ module API
             serialize_response(posts)
           end
 
-          route_param :id, type: String do
-            desc "Return comments for a post"
-            get :comments do
-              comments = Comment.where(post_id: params[:id]).map{ |comment| comment }
-              serialize_response(comments)
-            end
-          end 
-
           desc "Create a post"
           params do
             requires :title, type: String, desc: "Title of the post"
@@ -49,6 +41,34 @@ module API
 
               serialize_response(post_result.response)
           end
+
+          route_param :post_id, type: String do
+            desc "Return comments for a post"
+            get :comments do
+              comments = Comment.where(post_id: params[:post_id]).map{ |comment| comment }
+              serialize_response(comments)
+            end
+
+            desc "Create a comment for a post"
+            params do
+              requires :name, type: String, desc: "Name of the comment"
+              requires :message, type: String, desc: "Message of the comment" 
+            end
+            post :comments do
+              comment_result = Factories::CommentFactory.new.create(comment: params)
+              if comment_result.code == Factories::CommentFactory::SUCCESS
+                comment_summary_result = Factories::CommentSummaryFactory.new.create(comment_id: comment_result.response.id)
+              end
+              
+              if comment_result.errors.any? || comment_summary_result.errors.any?
+                #TODO - better error handling
+                raise "Error!"
+              end
+
+              serialize_response(comment_result.response)
+            end 
+          end 
+
         end
       end
     end

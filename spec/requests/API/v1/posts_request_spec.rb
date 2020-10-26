@@ -74,5 +74,27 @@ RSpec.describe "API::V1::Posts", type: :request do
             end 
         end 
     end
+
+    describe "POST posts#comments#post" do
+        let!(:existing_post) { create(:post) }
+        let(:post_id) { existing_post.id }
+
+        let!(:post_summary) { create(:post_summary, post_id: post_id) }
+
+        let(:params) do 
+            {
+                name: "testing name",
+                message: "testing message"
+            }
+        end
+        
+        context 'with valid attributes' do
+            it 'creates a comment for post' do 
+                post "/api/v1/posts/#{post_id}/comments", params: params.to_json, headers: headers 
+                json = JSON.parse(response.body)
+                expect(response).to have_http_status(201)
+            end 
+        end 
+    end
             
 end
