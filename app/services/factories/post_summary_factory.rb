@@ -37,9 +37,8 @@ module Factories
     
         def up_vote(post_id:)
             post_summary = PostSummary.find_by(post_id: post_id)
-    
             if !post_summary
-                add_error([POST_NOT_FOUND_ERROR])
+                add_error([POST_SUMMARY_NOT_FOUND_ERROR])
                 @result.code = ERROR
             end
     

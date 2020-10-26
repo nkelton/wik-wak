@@ -8,6 +8,7 @@ class ThreadContainer extends React.Component {
   constructor(props) {
     super(props);
   }
+
   post() {
     return(
       <Post
@@ -40,7 +41,7 @@ class ThreadContainer extends React.Component {
           children={ comments }
           postId={ postId }
           parentId={ null }
-          voteBody={ { post_id: postId } }
+          parentLinks={ this.props.post.links }
           summary={ this.props.post.summary }
         />
       </React.Fragment>

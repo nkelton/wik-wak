@@ -53,6 +53,7 @@ module API
             params do
               requires :name, type: String, desc: "Name of the comment"
               requires :message, type: String, desc: "Message of the comment" 
+              optional :parent_id, type: String, desc: "ParentId of the comment"
             end
             post :comments do
               comment_result = Factories::CommentFactory.new.create(comment: params)
@@ -65,7 +66,7 @@ module API
                 raise "Error!"
               end
 
-              serialize_response(comment_result.response)
+              serialize_response(comment_result.response.reload)
             end 
 
 

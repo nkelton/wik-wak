@@ -39,12 +39,11 @@ class CommentForm extends React.Component {
     const data = {
       name: this.state.name,
       message: this.state.message,
-      post_id: this.props.postId,
       parent_id: this.props.parentId
     };
 
     const csrfToken = $('meta[name=csrf-token]').attr('content');
-    const COMMENTS_URL = "http://localhost:3000/comments";
+    const COMMENTS_URL = `http://localhost:3000/api/v1/posts/${this.props.postId}/comments`;
 
     fetch(COMMENTS_URL, {
       method: 'POST',

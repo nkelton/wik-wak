@@ -50,7 +50,7 @@ class PostForm extends React.Component {
     }
 
     const csrfToken = $('meta[name=csrf-token]').attr('content');
-    const COMMENTS_URL = "http://localhost:3000/posts";
+    const COMMENTS_URL = "http://localhost:3000/api/v1/posts";
 
     fetch(COMMENTS_URL, {
       method: 'POST',

@@ -14,19 +14,23 @@ class Vote extends React.Component {
   }
 
   vote(requestBody) {
-    return VoteHelper.create(requestBody);
+    return VoteHelper.create(this.props.voteLink, requestBody);
   }
 
   onUpVote() {
-    var requestBody = this.props.voteBody;
-    requestBody["value"] = 1;
+    let requestBody = {
+      ip: "123.123.123",
+      value: 1
+    }
 
     return this.vote(requestBody);
   }
 
   onDownVote() {
-    var requestBody = this.props.voteBody;
-    requestBody["value"] = -1;
+    let requestBody = {
+      ip: "123.123.123",
+      value: 1
+    }
 
     return this.vote(requestBody);
   }

@@ -1,9 +1,9 @@
 class VoteHelper {
-    static create = (requestParams) => {
+    static create = (VOTE_URL, requestParams) => {
         const csrfToken = $('meta[name=csrf-token]').attr('content');
-        const VOTES_URL = "http://localhost:3000/votes"
+        // const VOTES_URL = "http://localhost:3000/api/v1/votes"
         return (
-            fetch(VOTES_URL, {
+            fetch(VOTE_URL, {
                 method: 'POST',
                 headers:  {
                   "Content-Type": "application/json",

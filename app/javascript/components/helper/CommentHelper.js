@@ -1,10 +1,8 @@
 class CommentHelper {
     static get = (postId, token) => {
-        const COMMENTS_URL = "http://localhost:3000/comments?"
+        const COMMENTS_URL = `http://localhost:3000/api/v1/posts/${postId}/comments`
         return (
-            fetch(COMMENTS_URL + new URLSearchParams({
-                post_id: postId
-              }), {
+            fetch(COMMENTS_URL, {
                 headers: {
                   "Content-Type": "application/json",
                   "Accept": "application/json",
