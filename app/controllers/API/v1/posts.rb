@@ -67,6 +67,23 @@ module API
 
               serialize_response(comment_result.response)
             end 
+
+
+            desc "Create a vote for a post"
+            params do 
+              requires :ip, type: String, desc: "Ip address of the vote"
+              requires :value, type: String, desc: "Value of the vote"
+            end
+            post :votes do
+              vote_result = Factories::VoteFactory.new.create(vote_attributes: params)
+
+              if vote_result.errors.any?
+                raise "Error!"
+              end
+
+              serialize_response(vote_result.response)
+            end
+
           end 
 
         end

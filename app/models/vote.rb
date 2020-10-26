@@ -9,4 +9,14 @@ class Vote
 
   UPVOTE = 1
   DOWNVOTE = -1
+
+
+  def is_post?
+    self.comment == nil && self.post != nil
+  end
+
+  def is_comment?
+    self.comment != nil && self.post == nil
+  end
+
 end
