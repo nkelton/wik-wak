@@ -27,8 +27,8 @@ RSpec.describe "API::V1::Posts", type: :request do
     end
 
     describe "GET posts#get" do
-        let(:post) { create(:post, location: [lat, lng] ) }
-        let(:post_summary) { create(:post_summary, post_id: post.id) }
+        let!(:post) { create(:post, location: [lat, lng] ) }
+        let!(:post_summary) { create(:post_summary, post_id: post.id) }
 
         let(:lat) { "23.45" }
         let(:lng) { "45.65" }
@@ -44,15 +44,32 @@ RSpec.describe "API::V1::Posts", type: :request do
             }
         end
 
-        before do
-            post 
-            post_summary
-        end
-
         context 'with valid params' do
             it 'returns posts' do 
                 get "/api/v1/posts", params: params, headers: headers 
                 json = JSON.parse(response.body)
+                expect(json.count).to eq(1)
+                expect(response).to have_http_status(200)
+            end 
+        end 
+    end
+
+    describe "GET posts#comments#get" do
+        let!(:post) { create(:post) }
+        let(:post_id) { post.id }
+
+        let!(:post_summary) { create(:post_summary, post_id: post_id) }
+
+        let!(:comment) { create(:comment, post_id: post_id) }
+        let(:comment_id) { comment.id }
+
+        let!(:comment_summary) { create(:comment_summary, comment_id: comment_id) }
+
+        context 'with valid post_id' do
+            it 'returns all comments for post' do 
+                get "/api/v1/posts/#{post_id}/comments", headers: headers 
+                json = JSON.parse(response.body)
+                expect(json.count).to eq(1)
                 expect(response).to have_http_status(200)
             end 
         end 

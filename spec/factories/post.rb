@@ -5,8 +5,8 @@ FactoryBot.define do
       ip { "123.123.123" }
       location { 
         [
-          "#{ Faker::Number.decimal(l_digits: 1..3, r_digits: 1..3)}",
-          "#{Faker::Number.decimal(l_digits: 1..3, r_digits: 1..3)}"
+          "#{ Faker::Number.decimal(l_digits: 2, r_digits: 2)}",
+          "#{Faker::Number.decimal(l_digits: 2, r_digits: 2)}"
         ] 
       }
     end
