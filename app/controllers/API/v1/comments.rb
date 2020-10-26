@@ -17,7 +17,7 @@ module API
                 raise "Error!"
               end
 
-              serialize_response(vote_result.response)
+              serialize_response(vote_result.response.reload)
             end
           end
         end

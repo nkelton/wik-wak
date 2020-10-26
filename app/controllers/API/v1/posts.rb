@@ -39,7 +39,7 @@ module API
                 raise "Error!"
               end
 
-              serialize_response(post_result.response)
+              serialize_response(post_result.response.reload)
           end
 
           route_param :post_id, type: String do
