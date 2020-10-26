@@ -7,9 +7,32 @@ module Factories
     
         POST_SUMMARY_NOT_FOUND_ERROR = "Post Summary Not Found"
         
+        UPVOTES_DEFAULT = 0
+        DOWNVOTES_DEFAULT = 0
+
+
         def initialize
             super
             @result = Result.new(response: nil, errors: [], code: SUCCESS)
+        end
+
+        def create(post_id:)
+            post_summary_params = {
+                post_id: post_id,
+                up_votes: UPVOTES_DEFAULT,
+                down_votes: DOWNVOTES_DEFAULT
+            }
+
+            post_summary = PostSummary.new(post_summary_params)
+
+            if post_summary.save
+                @result.response = post_summary
+            else 
+                @result.code = ERROR
+                @result.errors = post_summary.errors 
+            end
+
+            @result
         end
     
         def up_vote(post_id:)

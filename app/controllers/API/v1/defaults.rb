@@ -8,8 +8,6 @@ module API
           version "v1", using: :path
           default_format :json
           format :json
-          formatter :json, 
-               Grape::Formatter::ActiveModelSerializers
   
           helpers do
             def permitted_params
@@ -19,6 +17,10 @@ module API
   
             def logger
               Rails.logger
+            end
+
+            def serialize_response(response)
+              ActiveModelSerializers::SerializableResource.new(response).serializable_hash
             end
           end
         end

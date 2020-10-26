@@ -23,7 +23,6 @@ module Factories
                 @result.errors = post.errors
             end
     
-            @result.errors = @errors 
             @result
         end 
     

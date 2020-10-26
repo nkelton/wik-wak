@@ -31,7 +31,11 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 4.0.1'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'pry-nav'
 end
 
 group :development do
