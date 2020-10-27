@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "CommnetFactory" do
+RSpec.describe "CommentFactory" do
 
     subject { Factories::CommentFactory.new } 
     
