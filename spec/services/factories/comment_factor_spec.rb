@@ -15,7 +15,7 @@ RSpec.describe "CommnetFactory" do
 
     context '#create' do 
         context "with valid attributes" do
-            it 'creates comment' do
+            it 'creates comment and comment_summary' do
                 result = nil
                 expect {
                     result = subject.create(comment_attributes: comment_attributes)  
@@ -29,12 +29,12 @@ RSpec.describe "CommnetFactory" do
             end 
         end
 
-        context "when comment_summary factory raises " do
+        context "when comment_summary factory raises error" do
             let(:factory_response) do 
-                Factories::CommentSummaryFactory::Result.new(
+                Factories::PostSummaryFactory::Result.new(
                     response: nil,
                     errors: ["Error!"],
-                    code: Factories::CommentSummaryFactory::ERROR
+                    code: Factories::PostSummaryFactory::ERROR
                 )
             end
 
@@ -53,7 +53,7 @@ RSpec.describe "CommnetFactory" do
             end
         end 
 
-        context "when comment creation raises " do
+        context "when comment creation raises error" do
             before do
                 allow(Comment).to receive(:create!).and_raise(Mongo::Error.new("Error!"))
             end
