@@ -27,7 +27,6 @@ module Factories
             @result
         end 
 
-
         private 
 
         def _queue_summary_vote(vote:)
