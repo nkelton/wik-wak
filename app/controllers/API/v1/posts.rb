@@ -29,12 +29,9 @@ module API
             requires :location, type: Array, desc: "Location of the post [lat, lng]"
           end
           post "", root: :posts do
-              post_result = Factories::PostFactory.new.create(post: params)
-              if post_result.code == Factories::PostFactory::SUCCESS
-                post_summary_result = Factories::PostSummaryFactory.new.create(post_id: post_result.response.id)
-              end
-              
-              if post_result.errors.any? || post_summary_result.errors.any?
+              post_result = Factories::PostFactory.new.create(post_attributes: params)
+            
+              if post_result.code != Factories::PostFactory::SUCCESS
                 #TODO - better error handling
                 raise "Error!"
               end
@@ -56,16 +53,14 @@ module API
               optional :parent_id, type: String, desc: "ParentId of the comment"
             end
             post :comments do
-              comment_result = Factories::CommentFactory.new.create(comment: params)
-              if comment_result.code == Factories::CommentFactory::SUCCESS
-                comment_summary_result = Factories::CommentSummaryFactory.new.create(comment_id: comment_result.response.id)
-              end
-              
-              if comment_result.errors.any? || comment_summary_result.errors.any?
+              comment_result = Factories::CommentFactory.new.create(comment_attributes: params)
+
+
+              if comment_result.code != Factories::CommentFactory::SUCCESS
                 #TODO - better error handling
                 raise "Error!"
               end
-
+              
               serialize_response(comment_result.response.reload)
             end 
 
