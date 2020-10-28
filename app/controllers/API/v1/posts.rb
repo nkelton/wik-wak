@@ -16,7 +16,7 @@ module API
             posts = Post.near_sphere(location: location_param)
                         .paginate(offset: params[:offset], limit: params[:limit])
                         .desc(:_id)
-                        .map{ |post| post }
+                        .map { |post| post }
 
             serialize_response(posts)
           end
@@ -43,6 +43,7 @@ module API
             desc "Return comments for a post"
             get :comments do
               comments = Comment.where(post_id: params[:post_id]).map{ |comment| comment }
+
               serialize_response(comments)
             end
 
@@ -54,7 +55,6 @@ module API
             end
             post :comments do
               comment_result = Factories::CommentFactory.new.create(comment_attributes: params)
-
 
               if comment_result.code != Factories::CommentFactory::SUCCESS
                 #TODO - better error handling
