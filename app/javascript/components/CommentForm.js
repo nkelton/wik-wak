@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import CommentHelper from './helper/CommentHelper'
 class CommentForm extends React.Component {
   constructor(props) {
     super(props);
@@ -42,18 +43,8 @@ class CommentForm extends React.Component {
       parent_id: this.props.parentId
     };
 
-    const csrfToken = $('meta[name=csrf-token]').attr('content');
-    const COMMENTS_URL = `http://localhost:3000/api/v1/posts/${this.props.postId}/comments`;
-
-    fetch(COMMENTS_URL, {
-      method: 'POST',
-      headers:  {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-CSRF-Token": csrfToken
-      },
-      body: JSON.stringify(data)
-    }).then(response => window.location.reload())
+    CommentHelper.post(this.props.postId, data)
+      .then(response => window.location.reload())
   }
 
   validateForm() {

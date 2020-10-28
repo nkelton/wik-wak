@@ -50,7 +50,8 @@ class PostForm extends React.Component {
       location: this.state.location
     }
 
-    PostHelper.post(data).then(response => window.location.reload())
+    PostHelper.post(data)
+      .then(response => window.location.reload())
   }
 
   validateForm() {
