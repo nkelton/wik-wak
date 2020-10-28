@@ -38,16 +38,15 @@ module Factories
             comment_summary = CommentSummary.find_by(comment_id: comment_id)
     
             if !comment_summary
-                add_error([COMMENT_SUMMARY_NOT_FOUND_ERROR])
+                @result.errors << [COMMENT_SUMMARY_NOT_FOUND_ERROR]
                 @result.code = ERROR
             end
     
-            if !errors?
+            if @result.code != ERROR 
                 new_up_votes = comment_summary.up_votes + Vote::UPVOTE
                 @result.response = _update(comment_summary: comment_summary, params: { up_votes: new_up_votes })
             end
     
-            @result.errors = errors
             @result
         end
     
@@ -55,16 +54,15 @@ module Factories
             comment_summary = CommentSummary.find_by(comment_id: comment_id)
     
             if !comment_summary
-                add_error([COMMENT_NOT_FOUND_ERROR])
+                @result.errors << [COMMENT_SUMMARY_NOT_FOUND_ERROR]
                 @result.code = ERROR
             end
     
-            if !errors?
-                new_down_votes = comment_summary.down_vote + Vote::DOWNVOTE
+            if @result.code != ERROR
+                new_down_votes = comment_summary.down_votes + ( -1 * Vote::DOWNVOTE )
                 @result.response = _update(comment_summary: comment_summary, params: { down_votes: new_down_votes })
             end
     
-            @result.errors = errors
             @result
         end
     

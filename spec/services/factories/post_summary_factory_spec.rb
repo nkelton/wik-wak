@@ -24,10 +24,10 @@ RSpec.describe "PostSummaryFactory" do
     end
 
     context "#up_vote" do
+        let!(:post) { create(:post) }
+        let!(:post_summary) { create(:post_summary, post_id: post.id) }
+
         context 'with valid post_id' do
-            let!(:post) { create(:post) }
-            let!(:post_summary) { create(:post_summary, post_id: post.id) }
-                     
             it 'increaes post_summary up_vote by 1' do
                 result = nil
                 expect {
@@ -39,8 +39,6 @@ RSpec.describe "PostSummaryFactory" do
         end
 
         context 'with invalid post_id' do 
-            let!(:post) { create(:post) }
-            let!(:post_summary) { create(:post_summary, post_id: post.id) }
             let(:invalid_post_summary_id) { "invalid_post_id" }
             
             it 'returns error' do
@@ -55,10 +53,10 @@ RSpec.describe "PostSummaryFactory" do
     end
 
     context "#down_vote" do
+        let!(:post) { create(:post) }
+        let!(:post_summary) { create(:post_summary, post_id: post.id) }
+                 
         context 'with valid post_id' do
-            let!(:post) { create(:post) }
-            let!(:post_summary) { create(:post_summary, post_id: post.id) }
-                     
             it 'increaes post_summary down_vote by 1' do
                 result = nil
                 expect {
@@ -68,10 +66,8 @@ RSpec.describe "PostSummaryFactory" do
                 expect(result.code).to equal(Factories::PostSummaryFactory::SUCCESS) 
             end
         end
-        
+
         context 'with invalid post_id' do 
-            let!(:post) { create(:post) }
-            let!(:post_summary) { create(:post_summary, post_id: post.id) }
             let(:invalid_post_summary_id) { "invalid_post_id" }
             
             it 'returns error' do
