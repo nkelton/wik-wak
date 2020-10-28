@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import PostHelper from './helper/PostHelper'
+import LocationHelper from './helper/LocationHelper'
 class PostForm extends React.Component {
   constructor(props) {
     super(props);
@@ -69,9 +70,7 @@ class PostForm extends React.Component {
   }
 
   retrieveClientIP() {
-    const url = "https://api.ipify.org/?format=json"
-    return fetch(url)
-      .then(response => response.json())
+    LocationHelper.getClientIpAddress()
       .then(data => this.setState({ ip: data.ip }))
   }
 
