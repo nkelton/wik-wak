@@ -54,6 +54,7 @@ RSpec.configure do |config|
 
   # Mongoid configuration 
   # config.include Mongoid::Matchers, type: :model
+  Mongoid.raise_not_found_error = false
 
   # FactoryBot configuration
   config.include FactoryBot::Syntax::Methods
