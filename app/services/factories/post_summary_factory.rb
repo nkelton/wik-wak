@@ -66,7 +66,6 @@ module Factories
         end
 
         def increment_comment_count(post_id:)
-            # binding.pry
             post_summary = PostSummary.find_by(post_id: post_id)
     
             if !post_summary
@@ -74,7 +73,6 @@ module Factories
                 @result.code = ERROR
             end
     
-            # binding.pry
             if @result.code != ERROR
                 new_comment_count = post_summary.comment_count + 1
                 @result.response = _update(post_summary: post_summary, params: { comment_count: new_comment_count })
