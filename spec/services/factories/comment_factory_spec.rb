@@ -15,7 +15,12 @@ RSpec.describe "CommentFactory" do
 
     context '#create' do 
         context "with valid attributes" do
-            it 'creates comment and comment_summary' do
+
+            before do 
+                expect(IncrementCommentCountWorker).to receive(:perform_async) 
+            end 
+
+            it 'creates comment and comment_summary and queues count worker' do
                 result = nil
                 expect {
                     result = subject.create(comment_attributes: comment_attributes)  
@@ -40,9 +45,10 @@ RSpec.describe "CommentFactory" do
 
             before do
                 expect_any_instance_of(Factories::CommentSummaryFactory).to receive(:create).and_return(factory_response)
+                expect(IncrementCommentCountWorker).to receive(:perform_async).never 
             end
 
-            it 'no records are created' do
+            it 'no records are created and work is not queued' do
                 result = nil
                 expect {
                     result = subject.create(comment_attributes: comment_attributes)  
@@ -56,18 +62,21 @@ RSpec.describe "CommentFactory" do
         context "when comment creation raises error" do
             before do
                 allow(Comment).to receive(:create!).and_raise(Mongo::Error.new("Error!"))
+                expect(IncrementCommentCountWorker).to receive(:perform_async).never 
             end
 
-            it 'no records are created' do
+            it 'no records are created and work is not queued' do
                 result = nil
                 expect {
-                    result = subject.create(comment_attributes: comment_attributes)  
+                    result = subject.create(comment_attributes: comment_attributes)
                 }.to change { Comment.count }.by(0)
                 .and change { CommentSummary.count }.by(0)
                 
                 expect(result.code).to eq(Factories::CommentFactory::ERROR)
             end
         end 
+
+
 
     end
 end

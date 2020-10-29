@@ -26,7 +26,7 @@ class Thread extends React.Component {
                   </Nav.Item>
                   <Nav.Item as="li">
                     <Accordion.Toggle as={ Button } variant="link" eventKey="1">
-                      <strong> { this.props.children.length } </strong> Comments
+                      <strong> { this.props.summary.comment_count } </strong> Comments
                     </Accordion.Toggle>
                   </Nav.Item>
                   <Nav.Item>

@@ -80,4 +80,32 @@ RSpec.describe "PostSummaryFactory" do
             end
         end
     end
+
+    context '#increment_comment_count' do 
+        let!(:post) { create(:post) }
+        let!(:post_summary) { create(:post_summary, post_id: post.id) }
+
+        context 'with valid post_id' do 
+            it 'increments comment count by 1' do
+                result = nil
+                expect {
+                    result = subject.increment_comment_count(post_id: post.id) 
+                }.to change { post_summary.reload.comment_count }.by(1)
+            
+                expect(result.code).to equal(Factories::PostSummaryFactory::SUCCESS)
+            end
+        end
+
+        context 'with invalid post_id' do
+            it 'returns error' do
+                result = nil
+                expect {
+                    result = subject.increment_comment_count(post_id: "bad_post_id") 
+                }.to change { post_summary.reload.comment_count }.by(0)
+
+                expect(result.code).to equal(Factories::PostSummaryFactory::ERROR)
+            end
+        end
+    end
+
 end
