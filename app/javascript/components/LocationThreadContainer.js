@@ -9,13 +9,13 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Spinner from 'react-bootstrap/Spinner'
 import PostHelper from './helper/PostHelper'
 import CommentHelper from './helper/CommentHelper'
-import LocationHelper from './helper/LocationHelper'
+import withFetchClientLocationDetails from './withFetchClientLocationDetails'
+import equal from 'fast-deep-equal'
 class LocationThreadContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      location: [],
       posts: [],
       comments: [],
       threads: [],
@@ -27,37 +27,25 @@ class LocationThreadContainer extends React.Component {
 
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
+    this.fetchThreads = this.fetchThreads.bind(this);
   }
 
-  componentDidMount() {
-    LocationHelper.getClientPosition()
-      .then((position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude; 
-        
-        this.setState({
-          location: [lat, lng]
-        });
+  componentDidUpdate(prevProps){
+    const {
+      clientLocationDetails
+    }= this.props;
 
-        return LocationHelper.getClientLocationDetails(lat, lng);
-      }).then((locationDetails) => {
-        this.setState({
-          city: locationDetails.address.city
-        });
+    const newState = !equal(prevProps.clientLocationDetails, clientLocationDetails);
+    const defaultState = prevProps.lat !== '' || prevProps.lng !== '' || !equals(prevProps.address, {}) || prevProps.ipAddress !== '';
 
-        return LocationHelper.getClientIpAddress()
-      }).then((ipAddress) => {
-          this.setState({
-            ipAddress: ipAddress.ip
-          });
-
-        return this.fetchThreads();
-      });
+    if(newState && defaultState && !clientLocationDetails.loading) {
+      this.fetchThreads();
+    }
   }
 
   fetchThreads() {
       return PostHelper.get(
-        this.state.location, 
+        [this.props.lat, this.props.lng], 
         this.state.postOffset, 
         this.state.postLimit, 
         this.props.authenticity_token).then((posts) => {
@@ -115,7 +103,12 @@ class LocationThreadContainer extends React.Component {
     );
   }
 
-  render () {
+  render () {      
+    const {
+      address,
+      ipAddress
+    }= this.props.clientLocationDetails
+
     let threads = this.state.threads.map(thread => {
       return (
         <ThreadContainer 
@@ -156,8 +149,8 @@ class LocationThreadContainer extends React.Component {
                 </div>
                 <div className="col-xs-6" style={ { margin: '2%', marginLeft: '25%' }}>
                   <h3>Posting as 
-                    <strong> { this.state.ipAddress } </strong> in
-                    <strong> { this.state.city } </strong>
+                    <strong> { ipAddress } </strong> in
+                    <strong> { address.city } </strong>
                   </h3>
                 </div>
               </div>            
@@ -181,4 +174,5 @@ class LocationThreadContainer extends React.Component {
   }
 }
 
-export default LocationThreadContainer
+export default withFetchClientLocationDetails(LocationThreadContainer)
+      

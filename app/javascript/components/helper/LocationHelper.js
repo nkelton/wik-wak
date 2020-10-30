@@ -11,7 +11,7 @@ class LocationHelper {
           .then(response => response.json())
     }
 
-    static getClientLocationDetails = (lat, lng) => {
+    static getClientAddressDetails = (lat, lng) => {
         const OPEN_STREET_URL = 'https://nominatim.openstreetmap.org/reverse?'
         return (
             fetch(OPEN_STREET_URL + new URLSearchParams({
