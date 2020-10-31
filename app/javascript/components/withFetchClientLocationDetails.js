@@ -1,6 +1,5 @@
 import React from "react"
 import LocationHelper from "./helper/LocationHelper"
-
 const withFetchClientLocationDetails = (WrappedComponent) => {
     class withFetchClientLocationDetails extends React.Component {
         constructor(props) {

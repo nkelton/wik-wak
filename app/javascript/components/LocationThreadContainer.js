@@ -7,22 +7,17 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import InfiniteScroll from 'react-infinite-scroller';
 import Spinner from 'react-bootstrap/Spinner'
-import PostHelper from './helper/PostHelper'
-import CommentHelper from './helper/CommentHelper'
 import withFetchClientLocationDetails from './withFetchClientLocationDetails'
+import withFetchPosts from './withFetchPosts'
+import withFetchComments from './withFetchComments'
 import equal from 'fast-deep-equal'
 class LocationThreadContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      posts: [],
-      comments: [],
       threads: [],
       show: false,
-      hasMore: true,
-      postOffset: 0,
-      postLimit: 3,
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -31,6 +26,10 @@ class LocationThreadContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps){
+    this.didClientLocationDetailsFetch(prevProps) ? this.fetchThreads() : null
+  }
+
+  didClientLocationDetailsFetch(prevProps) {
     const {
       clientLocationDetails
     }= this.props;
@@ -38,45 +37,25 @@ class LocationThreadContainer extends React.Component {
     const newState = !equal(prevProps.clientLocationDetails, clientLocationDetails);
     const defaultState = prevProps.lat !== '' || prevProps.lng !== '' || !equals(prevProps.address, {}) || prevProps.ipAddress !== '';
 
-    if(newState && defaultState && !clientLocationDetails.loading) {
-      this.fetchThreads();
-    }
+    return newState && defaultState && !clientLocationDetails.loading
   }
 
   fetchThreads() {
-      return PostHelper.get(
-        [this.props.lat, this.props.lng], 
-        this.state.postOffset, 
-        this.state.postLimit, 
-        this.props.authenticity_token).then((posts) => {
-      let offSet = posts.length;
-
-      if(offSet < this.state.postLimit) {
-        this.setState({
-          hasMore: false
-        });
-      }
-
-      this.setState({
-        posts: this.state.posts.concat(posts),
-        postOffset: this.state.postOffset + offSet
-      });
-
-      return Promise.all(posts.map((post) => {
-        return CommentHelper.get(post.id["$oid"], this.props.authenticity_token);
-      }));
-    }).then((comments) => {
-      this.setState({
-        comments: this.state.comments.concat(comments)
-      })
+    this.props.fetchPosts().then((posts) => {
+      return this.props.fetchComments(posts);
     }).then(() => {
-      let threads = this.state.comments.map((comments, index) => {
+      const {
+        fetchedPosts,
+        fetchedComments
+      }= this.props
+  
+      const threads = fetchedComments.results.map((comments, index) => {
         return {
-          post: this.state.posts[index],
+          post: fetchedPosts.results[index],
           comments: comments
         }
       });
-
+  
       this.setState({
         threads: threads
       });
@@ -160,7 +139,7 @@ class LocationThreadContainer extends React.Component {
         <div className="container">
           <InfiniteScroll
             initialLoad={ false }
-            hasMore={ this.state.hasMore }
+            hasMore={ this.props.fetchedPosts.hasMore }
             loadMore= { this.fetchThreads.bind(this) }
             loader={ this.loader() }
           >
@@ -174,5 +153,7 @@ class LocationThreadContainer extends React.Component {
   }
 }
 
-export default withFetchClientLocationDetails(LocationThreadContainer)
-      
+export default withFetchClientLocationDetails(
+                  withFetchPosts(
+                    withFetchComments(
+                      LocationThreadContainer)))
