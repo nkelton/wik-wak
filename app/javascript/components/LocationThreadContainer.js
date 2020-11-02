@@ -121,7 +121,7 @@ class LocationThreadContainer extends React.Component {
                 <div className="col-xs-6" style={ { margin: '2%', marginLeft: '25%' }}>
                   <h3>Posting as 
                     <strong> { ipAddress } </strong> in
-                    <strong> { address.city } </strong>
+                    <strong> { address.city ? address.city : address.county } </strong>
                   </h3>
                 </div>
               </div>            
