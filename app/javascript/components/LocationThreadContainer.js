@@ -4,12 +4,13 @@ import PostForm from "./PostForm"
 import ThreadContainer from "./ThreadContainer"
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
 import InfiniteScroll from 'react-infinite-scroller';
 import withFetchClientLocationDetails from './withFetchClientLocationDetails'
 import withFetchPosts from './withFetchPosts'
 import withFetchComments from './withFetchComments'
 import LoadSpinner from './LoadSpinner'
+import FormModal from './FormModal'
+import useModal from './useModal'
 import equal from 'fast-deep-equal'
 class LocationThreadContainer extends React.Component {
   constructor(props) {
@@ -77,8 +78,12 @@ class LocationThreadContainer extends React.Component {
   render () {      
     const {
       address,
-      ipAddress
+      ipAddress,
     }= this.props.clientLocationDetails
+
+    const {
+      toggleModal,
+    }= this.props
 
     let threads = this.state.threads.map(thread => {
       return (
@@ -99,24 +104,18 @@ class LocationThreadContainer extends React.Component {
                 <div className="col-xs-6">
                   <h1>WikWak</h1>
                   <p>Like YikYak but with a <strong>W</strong></p>
-                  <Button 
-                    onClick={ this.handleShow }
-                    variant="success">
-                    Make Post
-                  </Button>
-                  <Modal
-                    show={ this.state.show }
-                    onHide={ this.handleClose }
-                    backdrop="static"
-                    keyboard={ false }
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Post</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <PostForm/>
-                    </Modal.Body>
-                  </Modal>
+                  <FormModal 
+                    button = {
+                     <Button 
+                        onClick={ toggleModal }
+                        variant="success">
+                         Make Post
+                     </Button>
+                    }
+                    title={ "Post" }
+                    form={ <PostForm /> }
+                    {...this.props }
+                  />
                 </div>
                 <div className="col-xs-6" style={ { margin: '2%', marginLeft: '25%' }}>
                   <h3>Posting as 
@@ -154,4 +153,5 @@ class LocationThreadContainer extends React.Component {
 export default withFetchClientLocationDetails(
                   withFetchPosts(
                     withFetchComments(
-                      LocationThreadContainer)))
+                      useModal(
+                        LocationThreadContainer))))
