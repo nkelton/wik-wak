@@ -6,10 +6,10 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import InfiniteScroll from 'react-infinite-scroller';
-import Spinner from 'react-bootstrap/Spinner'
 import withFetchClientLocationDetails from './withFetchClientLocationDetails'
 import withFetchPosts from './withFetchPosts'
 import withFetchComments from './withFetchComments'
+import LoadSpinner from './LoadSpinner'
 import equal from 'fast-deep-equal'
 class LocationThreadContainer extends React.Component {
   constructor(props) {
@@ -74,14 +74,6 @@ class LocationThreadContainer extends React.Component {
     });
   }
 
-  loader() {
-    return(
-      <Spinner animation="border" role="status" key={0}>
-        <span className="sr-only">Loading...</span>
-      </Spinner>
-    );
-  }
-
   render () {      
     const {
       address,
@@ -141,7 +133,13 @@ class LocationThreadContainer extends React.Component {
             initialLoad={ false }
             hasMore={ this.props.fetchedPosts.hasMore }
             loadMore= { this.fetchThreads.bind(this) }
-            loader={ this.loader() }
+            loader={ 
+              <LoadSpinner key={ 0 } 
+                animation={ "border" }
+                role={ "status" }
+                message= { "Loading..." }
+              />  
+            }
           >
             <div className="threads">
               { threads }
